@@ -139,7 +139,7 @@ const Register = () => {
 
         <Grid container justifyContent="center">
           <Typography variant="body1" mt={2}>
-            Already have an account <Link to="login">Login</Link>
+            Already have an account <Link to="/">Login</Link>
           </Typography>
         </Grid>
       </Grid>
