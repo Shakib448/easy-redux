@@ -1,21 +1,37 @@
 import { Grid, Typography, TextField, Button } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "src/hooks/hooks";
 import { useYupValidationResolver } from "src/hooks/useYupValidationResolver";
+import { authState, loginAction } from "src/redux/slices/authSlice";
 import { loginSchema } from "src/validation";
+import { useNavigate, Link } from "react-router-dom";
 
 type Inputs = {
-  email: string;
+  username: string;
   password: string;
 };
 
 const Login = () => {
   const resolver = useYupValidationResolver(loginSchema);
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const { isSuccess } = useAppSelector(authState);
+
+  if (isSuccess) {
+    navigate("/admin");
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ resolver });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    dispatch(loginAction(data));
+  };
 
   return (
     <Grid
@@ -38,16 +54,16 @@ const Login = () => {
           <Grid item mb={4}>
             <TextField
               fullWidth
-              label="Email"
+              label="Username"
               id="fullWidth"
               inputProps={{
-                ...register("email"),
+                ...register("username"),
               }}
-              placeholder="Email"
+              placeholder="username"
               helperText={
-                errors.email && (
+                errors.username && (
                   <Typography variant="body1" sx={{ color: "red" }}>
-                    {errors.email?.message}
+                    {errors.username?.message}
                   </Typography>
                 )
               }
@@ -81,6 +97,13 @@ const Login = () => {
             </Grid>
           </Grid>
         </form>
+
+        <Grid container justifyContent="center">
+          <Typography variant="body1" mt={2}>
+            If you have no account please visit,{" "}
+            <Link to="register">Register</Link>
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
   );
