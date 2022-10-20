@@ -1,18 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "src/redux/store";
 
+interface Auth {
+  login: any;
+  register: any;
+  isSuccess: boolean;
+}
+
+const initialState: Auth = {
+  login: {},
+  register: {},
+  isSuccess: false,
+};
+
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    login: {},
-    register: {},
-    isSuccess: false,
-  },
+  initialState,
   reducers: {
     loginAction(state, { payload }) {
-      console.log("payload", payload);
       state.login = payload;
-      state.isSuccess = true;
+      if (
+        state.login.username === "admin" &&
+        state.login.password === "Test12345"
+      ) {
+        state.isSuccess = true;
+      }
     },
     registerAction(state, { payload }) {
       state.register = payload;

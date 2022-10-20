@@ -15,6 +15,7 @@ export const useYupValidationResolver = (validationSchema: any) =>
       } catch (errors) {
         return {
           values: {},
+          // @ts-ignore
           errors: errors.inner.reduce(
             (
               allErrors: any,
