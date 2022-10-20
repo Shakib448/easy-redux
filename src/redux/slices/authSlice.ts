@@ -2,8 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "src/redux/store";
 
 interface Auth {
-  login: any;
-  register: any;
+  login:
+    | any
+    | {
+        username: string;
+        password: string;
+      };
+  register:
+    | any
+    | {
+        name: string;
+        email: string;
+        password: string;
+        confirmPassword: string;
+      };
   isSuccess: boolean;
 }
 
